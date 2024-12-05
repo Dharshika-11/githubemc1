@@ -1,0 +1,77 @@
+# Online Shopping Simulation
+
+def display_items(items):
+    print("\nAvailable Items:")
+    for item, price in items.items():
+        print(f"- {item}: ${price:.2f}")
+    print()
+
+def display_cart(cart):
+    print("\nYour Cart:")
+    if not cart:
+        print("Your cart is empty.")
+    else:
+        for item, quantity in cart.items():
+            print(f"- {item} (x{quantity})")
+    print()
+
+def calculate_total(cart, items):
+    total = sum(items[item] * quantity for item, quantity in cart.items())
+    return total
+
+def online_shopping():
+    items = {
+        "Laptop": 999.99,
+        "Smartphone": 699.99,
+        "Headphones": 199.99,
+        "Keyboard": 49.99,
+        "Mouse": 29.99
+    }
+
+    cart = {}
+    print("Welcome to Online Shopping!")
+    
+    while True:
+        display_items(items)
+        display_cart(cart)
+        print("Options: [1] Add to Cart  [2] Remove from Cart  [3] Checkout")
+        choice = input("Choose an option (or 'exit' to quit): ").strip()
+
+        if choice == "1":
+            item = input("Enter the name of the item to add: ").strip()
+            if item in items:
+                quantity = int(input(f"How many {item}s would you like to add? "))
+                cart[item] = cart.get(item, 0) + quantity
+                print(f"Added {quantity} {item}(s) to your cart.")
+            else:
+                print("Item not found. Please select an item from the list.")
+        
+        elif choice == "2":
+            item = input("Enter the name of the item to remove: ").strip()
+            if item in cart:
+                quantity = int(input(f"How many {item}s would you like to remove? "))
+                if quantity >= cart[item]:
+                    cart.pop(item)
+                    print(f"Removed all {item}(s) from your cart.")
+                else:
+                    cart[item] -= quantity
+                    print(f"Removed {quantity} {item}(s) from your cart.")
+            else:
+                print("Item not found in your cart.")
+
+        elif choice == "3":
+            total = calculate_total(cart, items)
+            print("\nCheckout")
+            print(f"Total Amount: ${total:.2f}")
+            print("Thank you for shopping with us!")
+            break
+        
+        elif choice.lower() == "exit":
+            print("Thank you for visiting our online store. Goodbye!")
+            break
+        
+        else:
+            print("Invalid choice. Please try again.")
+
+# Run the online shopping simulation
+online_shopping()
