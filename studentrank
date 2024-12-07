@@ -1,0 +1,58 @@
+# Student Rank List Management Program
+
+# List to store student data
+students = []
+
+# Function to add a student
+def add_student():
+    student_id = input("Enter Student ID: ").strip()
+    # Check if student ID already exists
+    if any(student["ID"] == student_id for student in students):
+        print("Error: Student ID already exists. Please try again.")
+        return
+    name = input("Enter Student Name: ").strip()
+    try:
+        marks = float(input("Enter Student Marks: "))
+    except ValueError:
+        print("Error: Marks must be a number. Please try again.")
+        return
+    student = {"ID": student_id, "Name": name, "Marks": marks}
+    students.append(student)
+    print("Student added successfully!")
+
+# Function to display the rank list
+def display_rank_list():
+    if not students:
+        print("No student data available.")
+    else:
+        # Sort students by marks in descending order, and by name in case of a tie
+        ranked_students = sorted(students, key=lambda x: (-x["Marks"], x["Name"]))
+        
+        print("\nRank List:")
+        print(f"{'Rank':<5}{'ID':<10}{'Name':<20}{'Marks':<10}")
+        print("-" * 45)
+        for rank, student in enumerate(ranked_students, start=1):
+            print(f"{rank:<5}{student['ID']:<10}{student['Name']:<20}{student['Marks']:<10.2f}")
+
+# Main menu
+def main():
+    while True:
+        print("\nStudent Rank List Management System")
+        print("1. Add Student")
+        print("2. Display Rank List")
+        print("3. Exit")
+        choice = input("Enter your choice: ").strip()
+
+        if choice == "1":
+            add_student()
+        elif choice == "2":
+            display_rank_list()
+        elif choice == "3":
+            print("Exiting the program. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+# Run the program
+if __name__ == "__main__":
+    main()
